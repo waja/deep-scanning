@@ -14,32 +14,28 @@ jobs:
   scan:
     strategy:
       matrix:
-        trivy_image:
-          - '{"name": "docker.io/tmtde/osrm-backend-volume:latest", "ignore_unfixed": true, "exit_code": "1", "severity": "CRITICAL,HIGH"}'
-          - '{"name": "docker.io/tmtde/osrm-backend-volume:development", "ignore_unfixed": true, "exit_code": "1", "severity": "CRITICAL,HIGH"}'
-          - '{"name": "docker.io/tmtde/php72-fpm:latest", "ignore_unfixed": true, "exit_code": "1", "severity": "CRITICAL,HIGH"}'
-          - '{"name": "docker.io/tmtde/php73-fpm:latest", "ignore_unfixed": true, "exit_code": "1", "severity": "CRITICAL,HIGH"}'
-          - '{"name": "docker.io/tmtde/php73-fpm:latest", "ignore_unfixed": true, "exit_code": "1", "severity": "CRITICAL,HIGH"}'
-          - '{"name": "docker.io/tmtde/php80-fpm:latest", "ignore_unfixed": true, "exit_code": "1", "severity": "CRITICAL,HIGH"}'
-        dockle_image:
-          - '{"name": "docker.io/tmtde/osrm-backend-volume:latest", "exit_code": "0", "exit-level": "WARN"}'
+        image:
+          - '{"name": "docker.io/tmtde/osrm-backend-volume:latest", "ignore_unfixed": true, "exit_code": "1", "exit-level": "WARN", "severity": "CRITICAL,HIGH"}'
+          - '{"name": "docker.io/tmtde/osrm-backend-volume:development", "ignore_unfixed": true, "exit_code": "1", "exit-level": "WARN", "severity": "CRITICAL,HIGH"}'
+          - '{"name": "docker.io/tmtde/php72-fpm:latest", "ignore_unfixed": true, "exit_code": "1", "exit-level": "WARN", "severity": "CRITICAL,HIGH"}'
+          - '{"name": "docker.io/tmtde/php73-fpm:latest", "ignore_unfixed": true, "exit_code": "1", "exit-level": "WARN", "severity": "CRITICAL,HIGH"}'
+          - '{"name": "docker.io/tmtde/php73-fpm:latest", "ignore_unfixed": true, "exit_code": "1", "exit-level": "WARN", "severity": "CRITICAL,HIGH"}'
+          - '{"name": "docker.io/tmtde/php80-fpm:latest", "ignore_unfixed": true, "exit_code": "1", "exit-level": "WARN", "severity": "CRITICAL,HIGH"}'
+        scan_action:
+          - aquasecurity/trivy-action@master
+          - hands-lab/dockle-action@v1
 
           
     runs-on: ubuntu-latest
     name: Scan
     steps:
-      - name: Scan ${{ fromJSON(matrix.trivy_image).name }}
-        uses: aquasecurity/trivy-action@master
+      - name: "Scan ${{ fromJSON(matrix.image).name }}"
+        uses: "${{ matrix.scan_action }}"
         with:
-          image-ref: ${{ fromJSON(matrix.trivy_image).name }}
+          image-ref: ${{ fromJSON(matrix.image).name }}
           format: 'table'
-          exit-code: ${{ fromJSON(matrix.trivy_image).exit_code }}
-          ignore-unfixed: ${{ fromJSON(matrix.trivy_image).ignore_unfixed }}
+          exit-code: ${{ fromJSON(matrix.image).exit_code }}
+          exit-level: ${{ fromJSON(matrix.image).exit_level }}
+          ignore-unfixed: ${{ fromJSON(matrix.image).ignore_unfixed }}
           vuln-type: 'os,library'
-          severity: ${{ fromJSON(matrix.trivy_image).severity }}
-      - name: Scan ${{ fromJSON(matrix.dockle_image).name }}
-        uses: hands-lab/dockle-action@v1
-        with:
-          image: ${{ fromJSON(matrix.dockle_image).name }}
-          exit-code: ${{ fromJSON(matrix.dockle_image).exit_code }}
-          exit-level: ${{ fromJSON(matrix.dockle_image).exit_level }}
+          severity: ${{ fromJSON(matrix.image).severity }}
