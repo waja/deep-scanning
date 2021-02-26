@@ -1,0 +1,70 @@
+name: scan
+on:
+  schedule:
+    - cron: 0 8 * * *
+  push:
+    branches:
+      - master
+jobs:
+  scan:
+    runs-on: debian:latest
+    name: Scan
+    steps:
+      - name: Scan osrm-backend-volume:latest
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'docker.io/tmtde/osrm-backend-volume:latest'
+          format: 'table'
+          exit-code: '0'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
+          
+      - name: Scan osrm-backend-volume:development
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'docker.io/tmtde/osrm-backend-volume:development'
+          format: 'table'
+          exit-code: '0'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'          
+      - name: Scan php72-fpm
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'docker.io/tmtde/php72-fpm:latest'
+          format: 'table'
+          exit-code: '0'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
+          
+      - name: Scan php73-fpm
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'docker.io/tmtde/php73-fpm:latest'
+          format: 'table'
+          exit-code: '0'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
+
+      - name: Scan php74-fpm
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'docker.io/tmtde/php74-fpm:latest'
+          format: 'table'
+          exit-code: '0'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'          
+
+      - name: Scan php80-fpm
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'docker.io/tmtde/php80-fpm:latest'
+          format: 'table'
+          exit-code: '0'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'          
