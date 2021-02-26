@@ -2,6 +2,10 @@ name: scan
 on:
   schedule:
     - cron: 0 8 * * *
+  pull_request:
+    branches:
+      - master
+      - development
   push:
     branches:
       - master
