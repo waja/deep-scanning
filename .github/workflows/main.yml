@@ -7,7 +7,7 @@ on:
       - master
 jobs:
   scan:
-    runs-on: debian:latest
+    runs-on: ubuntu-latest
     name: Scan
     steps:
       - name: Scan osrm-backend-volume:latest
