@@ -21,6 +21,8 @@ jobs:
           - '{"name": "docker.io/tmtde/php73-fpm:latest", "ignore_unfixed": true, "exit_code": "1", "severity": "CRITICAL,HIGH"}'
           - '{"name": "docker.io/tmtde/php73-fpm:latest", "ignore_unfixed": true, "exit_code": "1", "severity": "CRITICAL,HIGH"}'
           - '{"name": "docker.io/tmtde/php80-fpm:latest", "ignore_unfixed": true, "exit_code": "1", "severity": "CRITICAL,HIGH"}'
+        dockle_image:
+          - '{"name": "docker.io/tmtde/osrm-backend-volume:latest", "exit_code": "0", "exit-level": "WARN"}'
 
           
     runs-on: ubuntu-latest
