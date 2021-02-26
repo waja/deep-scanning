@@ -35,3 +35,9 @@ jobs:
           ignore-unfixed: ${{ fromJSON(matrix.trivy_image).ignore_unfixed }}
           vuln-type: 'os,library'
           severity: ${{ fromJSON(matrix.trivy_image).severity }}
+      - name: Scan ${{ fromJSON(matrix.dockle_image).name }}
+        uses: hands-lab/dockle-action@v1
+        with:
+          image: ${{ fromJSON(matrix.dockle_image).name }}
+          exit-code: ${{ fromJSON(matrix.dockle_image).exit_code }}
+          exit-level: ${{ fromJSON(matrix.dockle_image).exit_level }}
