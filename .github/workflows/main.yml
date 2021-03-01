@@ -14,7 +14,7 @@ jobs:
           - '{"name": "docker.io/tmtde/osrm-backend-volume:development", "ignore_unfixed": true}'
           - '{"name": "docker.io/tmtde/php72-fpm:latest", "ignore_unfixed": true}'
           - '{"name": "docker.io/tmtde/php73-fpm:latest", "ignore_unfixed": true}'
-          - '{"name": "docker.io/tmtde/php73-fpm:latest", "ignore_unfixed": true}'
+          - '{"name": "docker.io/tmtde/php74-fpm:latest", "ignore_unfixed": true}'
           - '{"name": "docker.io/tmtde/php80-fpm:latest", "ignore_unfixed": true}'
 
           
