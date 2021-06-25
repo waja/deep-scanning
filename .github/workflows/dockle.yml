@@ -1,0 +1,32 @@
+name: scan
+on:
+  schedule:
+    - cron: 0 8 * * *
+  pull_request:
+    branches:
+      - master
+      - development
+  push:
+    branches:
+      - master
+      - development
+jobs:
+  scan:
+    strategy:
+      matrix:
+        image:
+          - '{"name": "docker.io/tmtde/osrm-backend-volume:latest", "ignore_unfixed": true, "exit_code": "0", "exit-level": "WARN", "severity": "CRITICAL,HIGH"}'
+          - '{"name": "docker.io/tmtde/osrm-backend-volume:development", "ignore_unfixed": true, "exit_code": "0", "exit-level": "WARN", "severity": "CRITICAL,HIGH"}'
+          - '{"name": "docker.io/tmtde/php72-fpm:latest", "ignore_unfixed": true, "exit_code": "0", "exit-level": "WARN", "severity": "CRITICAL,HIGH"}'
+          - '{"name": "docker.io/tmtde/php73-fpm:latest", "ignore_unfixed": true, "exit_code": "0", "exit-level": "WARN", "severity": "CRITICAL,HIGH"}'
+          - '{"name": "docker.io/tmtde/php73-fpm:latest", "ignore_unfixed": true, "exit_code": "0", "exit-level": "WARN", "severity": "CRITICAL,HIGH"}'
+          - '{"name": "docker.io/tmtde/php80-fpm:latest", "ignore_unfixed": true, "exit_code": "1", "exit-level": "FATAL", "severity": "CRITICAL,HIGH"}'
+    runs-on: ubuntu-latest
+    name: Scan Dockle
+    steps:
+      - name: "Scan ${{ fromJSON(matrix.image).name }}"
+        uses: hands-lab/dockle-action@v1
+        with:
+          image: ${{ fromJSON(matrix.image).name }}
+          exit-code: ${{ fromJSON(matrix.image).exit_code }}
+          exit-level: ${{ fromJSON(matrix.image).exit_level }}
