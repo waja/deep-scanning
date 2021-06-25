@@ -1,0 +1,32 @@
+name: scan
+on:
+  schedule:
+    - cron: 0 8 * * *
+  pull_request:
+    branches:
+      - master
+      - development
+  push:
+    branches:
+      - master
+      - development
+jobs:
+  scan:
+    strategy:
+      matrix:
+        image:
+          - '{"name": "docker.io/tmtde/osrm-backend-volume:latest", "fail_build": true, "severity_cutoff": "critical"}'
+          - '{"name": "docker.io/tmtde/osrm-backend-volume:development", "fail_build": true, "severity_cutoff": "critical"}'
+          - '{"name": "docker.io/tmtde/php72-fpm:latest", "fail_build": true, "severity_cutoff": "critical"}'
+          - '{"name": "docker.io/tmtde/php73-fpm:latest", "fail_build": true, "severity_cutoff": "critical"}'
+          - '{"name": "docker.io/tmtde/php73-fpm:latest", "fail_build": true, "severity_cutoff": "critical"}'
+          - '{"name": "docker.io/tmtde/php80-fpm:latest", "fail_build": true, "severity_cutoff": "critical"}'
+    runs-on: ubuntu-latest
+    name: Scan Anchore
+    steps:
+      - name: "Scan ${{ fromJSON(matrix.image).name }}"
+        uses: anchore/scan-action@v2
+        with:
+          image: ${{ fromJSON(matrix.image).name }}
+          fail-build: ${{ fromJSON(matrix.image).fail_build }}
+          severity-cutoff: ${{ fromJSON(matrix.image).severity_cutoff }}
