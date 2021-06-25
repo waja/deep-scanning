@@ -1,0 +1,32 @@
+name: scan
+on:
+  schedule:
+    - cron: 0 8 * * *
+  pull_request:
+    branches:
+      - master
+      - development
+  push:
+    branches:
+      - master
+      - development
+jobs:
+  scan:
+    strategy:
+      matrix:
+        image:
+          - '{"name": "docker.io/tmtde/php80-fpm:latest", "qa_checks": true, "severity": "CRITICAL"}'
+          - '{"name": "docker.io/tmtde/php74-fpm:latest", "qa_checks": true, "severity": "CRITICAL"}'
+          - '{"name": "docker.io/tmtde/php73-fpm:latest", "qa_checks": true, "severity": "CRITICAL"}'
+          - '{"name": "docker.io/tmtde/php72-fpm:latest", "qa_checks": true, "severity": "CRITICAL"}'
+          - '{"name": "docker.io/tmtde/osrm-backend-volume:development", "qa_checks": true, "severity": "CRITICAL"}'
+          - '{"name": "docker.io/tmtde/osrm-backend-volume:latest", "qa_checks": true, "severity": "CRITICAL"}'
+    runs-on: ubuntu-latest
+    name: Container Scan
+    steps:
+      - name: "Scan ${{ fromJSON(matrix.image).name }}"
+        uses: Azure/container-scan@v0
+        with:
+          image-name: ${{ fromJSON(matrix.image).name }}
+          run-quality-checks: ${{ fromJSON(matrix.image).qa_checks }}
+          severity-threshold: ${{ fromJSON(matrix.image).severity }}
