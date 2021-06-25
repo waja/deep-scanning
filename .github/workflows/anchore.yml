@@ -15,12 +15,12 @@ jobs:
     strategy:
       matrix:
         image:
-          - '{"name": "docker.io/tmtde/osrm-backend-volume:latest", "fail_build": true, "severity_cutoff": "critical"}'
-          - '{"name": "docker.io/tmtde/osrm-backend-volume:development", "fail_build": true, "severity_cutoff": "critical"}'
-          - '{"name": "docker.io/tmtde/php72-fpm:latest", "fail_build": true, "severity_cutoff": "critical"}'
-          - '{"name": "docker.io/tmtde/php73-fpm:latest", "fail_build": true, "severity_cutoff": "critical"}'
-          - '{"name": "docker.io/tmtde/php73-fpm:latest", "fail_build": true, "severity_cutoff": "critical"}'
           - '{"name": "docker.io/tmtde/php80-fpm:latest", "fail_build": true, "severity_cutoff": "critical"}'
+          - '{"name": "docker.io/tmtde/php74-fpm:latest", "fail_build": true, "severity_cutoff": "critical"}'
+          - '{"name": "docker.io/tmtde/php73-fpm:latest", "fail_build": true, "severity_cutoff": "critical"}'
+          - '{"name": "docker.io/tmtde/php72-fpm:latest", "fail_build": true, "severity_cutoff": "critical"}'
+          - '{"name": "docker.io/tmtde/osrm-backend-volume:development", "fail_build": true, "severity_cutoff": "critical"}'
+          - '{"name": "docker.io/tmtde/osrm-backend-volume:latest", "fail_build": true, "severity_cutoff": "critical"}'
     runs-on: ubuntu-latest
     name: Scan Anchore
     steps:
